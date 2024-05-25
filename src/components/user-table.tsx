@@ -3,7 +3,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -23,7 +22,9 @@ export function UserTable({ users }: Props) {
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Age</TableHead>
-          <TableHead className="text-right">Profession</TableHead>
+          <TableHead>Profession</TableHead>
+          <TableHead>City</TableHead>
+          <TableHead>Country</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -32,7 +33,9 @@ export function UserTable({ users }: Props) {
             <TableCell className="font-medium">{user.name}</TableCell>
             <TableCell>{user.email}</TableCell>
             <TableCell>{user.age}</TableCell>
-            <TableCell className="text-right">{user.profession}</TableCell>
+            <TableCell>{user.profession}</TableCell>
+            <TableCell>{user.location.city}</TableCell>
+            <TableCell>{user.location.country}</TableCell>
           </TableRow>
         ))}
       </TableBody>
