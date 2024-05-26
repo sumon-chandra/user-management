@@ -9,4 +9,7 @@ export interface User {
     city: string;
     country: string;
   };
+  avatar: {
+    url?: string;
+  };
 }

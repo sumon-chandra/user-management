@@ -34,7 +34,7 @@ export default function DeleteAlertDialog({ userId }: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" className="rounded-full">
           <Trash2 size={20} className="cursor-pointer" />
         </Button>
       </AlertDialogTrigger>

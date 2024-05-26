@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { editUser } from "@/lib/actions";
 import { User } from "@/types";
@@ -19,13 +19,16 @@ interface Props {
 }
 
 export default function EditUserForm({ handleModalOpen, user }: Props) {
-  //   console.log(user);
+  const queryClient = useQueryClient();
 
   const { isPending, isSuccess, mutate } = useMutation({
     mutationKey: ["addUser"],
     mutationFn: async (user: User) => {
       const response = await editUser(user);
       return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 

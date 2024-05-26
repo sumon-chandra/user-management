@@ -21,7 +21,7 @@ export default function EditUserDialog({ user }: Props) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" className="rounded-full" size="sm">
           <FilePenLine size={20} className="cursor-pointer" />
         </Button>
       </DialogTrigger>

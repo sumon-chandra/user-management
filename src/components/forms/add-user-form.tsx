@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUser } from "@/lib/actions";
 import { User } from "@/types";
 import { Input } from "../ui/input";
@@ -16,8 +15,15 @@ import {
 } from "@/components/ui/form";
 import { z } from "zod";
 import { AddUserZodSchema } from "../../lib/zod-shema";
-import { Dispatch, SetStateAction, useMemo } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useMemo,
+  useState,
+} from "react";
 import { ImSpinner2 } from "react-icons/im";
+import { uploadAvatar } from "@/lib/upload-avatar";
 
 export type AddUserType = z.infer<typeof AddUserZodSchema>;
 interface Props {
@@ -25,11 +31,23 @@ interface Props {
 }
 
 export default function AddUserForm({ handleModalOpen }: Props) {
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const queryClient = useQueryClient();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
+
   const { isPending, isSuccess, mutate } = useMutation({
     mutationKey: ["addUser"],
     mutationFn: async (user: Omit<User, "id" | "created">) => {
       const response = await createUser(user as User);
       return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 
@@ -44,9 +62,11 @@ export default function AddUserForm({ handleModalOpen }: Props) {
     resolver: zodResolver(AddUserZodSchema),
   });
 
-  const onSubmit: SubmitHandler<AddUserType> = (userData) => {
-    console.log(userData);
-    mutate(userData);
+  const onSubmit: SubmitHandler<AddUserType> = async (userData) => {
+    const url = await uploadAvatar(selectedImage!);
+    const user = { ...userData, avatar: { url } };
+
+    mutate(user);
     form.reset();
   };
 
@@ -136,6 +156,32 @@ export default function AddUserForm({ handleModalOpen }: Props) {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="avatar.url"
+            render={() => (
+              <FormItem>
+                <FormLabel className="cursor-pointer">Add avatar</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {selectedImage && (
+            <div className="size-20 rounded-full">
+              <img
+                src={URL.createObjectURL(selectedImage!)}
+                alt="Avatar"
+                className="rounded-full w-full h-full object-cover"
+              />
+            </div>
+          )}
         </div>
         <Button
           type="submit"

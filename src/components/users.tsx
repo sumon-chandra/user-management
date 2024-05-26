@@ -12,13 +12,12 @@ export default function Users() {
   } = useQuery({
     queryKey: ["users"],
     queryFn: getAllUsers,
-    refetchInterval: 10000,
     staleTime: 10000,
   });
 
   if (isPending) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center text-3xl font-bold text-neutral-400">
+      <div className="min-h-screen w-full flex items-center justify-center text-3xl font-bold text-neutral-700">
         <PiSpinnerGapBold className="animate-spin" size={30} />
       </div>
     );
@@ -26,7 +25,7 @@ export default function Users() {
 
   if (isError) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center text-3xl font-bold text-neutral-400">
+      <div className="min-h-screen w-full flex items-center justify-center text-3xl font-bold text-neutral-700">
         <h3>Failed to load all users </h3>
       </div>
     );

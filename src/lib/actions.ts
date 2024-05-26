@@ -16,7 +16,7 @@ export async function getSingleUser(userId: number) {
 }
 
 export async function createUser(user: User) {
-  console.log({ user });
+  // console.log({ user });
 
   const response = await fetch("http://localhost:5000/users", {
     method: "POST",
@@ -25,14 +25,12 @@ export async function createUser(user: User) {
     },
     body: JSON.stringify(user),
   });
-  // console.log({ response });
+  console.log({ response });
 
   if (!response.ok) {
     throw new Error("Network error!");
   }
   const data = await response.json();
-  console.log({ data });
-
   return data;
 }
 

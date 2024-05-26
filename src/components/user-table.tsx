@@ -2,14 +2,12 @@ import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { User } from "@/types";
-import DeleteAlertDialog from "./widgets/delete-alert-dialog";
-import EditUserDialog from "./widgets/edit-user-dialog";
+import UserTableRow from "./user-table-row";
 
 interface Props {
   users: User[];
@@ -21,6 +19,7 @@ export function UserTable({ users }: Props) {
       <TableCaption>A list of users.</TableCaption>
       <TableHeader>
         <TableRow>
+          <TableHead>Avatar</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Age</TableHead>
@@ -32,18 +31,7 @@ export function UserTable({ users }: Props) {
       </TableHeader>
       <TableBody>
         {users.map((user) => (
-          <TableRow key={user.id}>
-            <TableCell className="font-medium">{user.name}</TableCell>
-            <TableCell>{user.email}</TableCell>
-            <TableCell>{user.age}</TableCell>
-            <TableCell>{user.profession}</TableCell>
-            <TableCell>{user.location.city}</TableCell>
-            <TableCell>{user.location.country}</TableCell>
-            <TableCell className="flex items-start gap-2">
-              <DeleteAlertDialog userId={user.id} />
-              <EditUserDialog user={user} />
-            </TableCell>
-          </TableRow>
+          <UserTableRow user={user} key={user.id} />
         ))}
       </TableBody>
     </Table>

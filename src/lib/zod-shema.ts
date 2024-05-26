@@ -10,6 +10,9 @@ export const AddUserZodSchema = z.object({
     city: z.string({ required_error: "City is not set!" }),
     country: z.string({ required_error: "Country is not set!" }),
   }),
+  avatar: z.object({
+    url: z.string().optional(),
+  }),
 });
 
 export const EditUserZodSchema = z.object({
@@ -23,5 +26,8 @@ export const EditUserZodSchema = z.object({
   location: z.object({
     city: z.string().optional(),
     country: z.string().optional(),
+  }),
+  avatar: z.object({
+    url: z.string().optional(),
   }),
 });
