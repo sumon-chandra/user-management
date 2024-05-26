@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 
-import { createUser, editUser } from "@/lib/actions";
+import { editUser } from "@/lib/actions";
 import { User } from "@/types";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";

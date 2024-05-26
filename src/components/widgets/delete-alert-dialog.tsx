@@ -10,13 +10,27 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { deleteUser } from "@/lib/actions";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { ImSpinner2 } from "react-icons/im";
 
 interface Props {
   userId: number;
 }
 
 export default function DeleteAlertDialog({ userId }: Props) {
+  const queryClient = useQueryClient();
+  const { isPending, mutate } = useMutation({
+    mutationKey: ["userId"],
+    mutationFn: async (userId: number) => {
+      return await deleteUser(userId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+  });
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -34,7 +48,13 @@ export default function DeleteAlertDialog({ userId }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction
+            className="bg-red-500 hover:bg-red-400"
+            disabled={isPending}
+            onClick={() => mutate(userId)}
+          >
+            {isPending ? <ImSpinner2 className="animate-spin" /> : "Delete"}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
