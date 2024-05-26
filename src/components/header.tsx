@@ -1,4 +1,4 @@
-import { AddUserDialog } from "./add-user/add-user-dialog";
+import { AddUserDialog } from "./widgets/add-user-dialog";
 
 export default function Header() {
   return (

@@ -35,3 +35,21 @@ export async function createUser(user: User) {
 
   return data;
 }
+export async function editUser(user: User) {
+  const response = await fetch(`http://localhost:5000/users/${user.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+  // console.log({ response });
+
+  if (!response.ok) {
+    throw new Error("Network error!");
+  }
+  const data = await response.json();
+  console.log({ data });
+
+  return data;
+}

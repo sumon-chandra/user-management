@@ -11,3 +11,17 @@ export const AddUserZodSchema = z.object({
     country: z.string({ required_error: "Country is not set!" }),
   }),
 });
+
+export const EditUserZodSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  age: z
+    .string()
+    .transform((data: unknown) => Number(data))
+    .optional(),
+  profession: z.string().optional(),
+  location: z.object({
+    city: z.string().optional(),
+    country: z.string().optional(),
+  }),
+});

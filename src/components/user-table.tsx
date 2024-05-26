@@ -8,6 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { User } from "@/types";
+import DeleteAlertDialog from "./widgets/delete-alert-dialog";
+import EditUserDialog from "./widgets/edit-user-dialog";
 
 interface Props {
   users: User[];
@@ -25,6 +27,7 @@ export function UserTable({ users }: Props) {
           <TableHead>Profession</TableHead>
           <TableHead>City</TableHead>
           <TableHead>Country</TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -36,6 +39,10 @@ export function UserTable({ users }: Props) {
             <TableCell>{user.profession}</TableCell>
             <TableCell>{user.location.city}</TableCell>
             <TableCell>{user.location.country}</TableCell>
+            <TableCell className="flex items-start gap-2">
+              <DeleteAlertDialog userId={user.id} />
+              <EditUserDialog user={user} />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
