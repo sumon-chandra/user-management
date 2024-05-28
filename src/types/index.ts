@@ -10,6 +10,6 @@ export interface User {
     country: string;
   };
   avatar: {
-    url?: string;
+    url?: string | null;
   };
 }

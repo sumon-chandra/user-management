@@ -23,7 +23,7 @@ import {
   useState,
 } from "react";
 import { ImSpinner2 } from "react-icons/im";
-import { uploadAvatar } from "@/lib/upload-avatar";
+import { uploadAvatar } from "@/lib/avatar";
 
 export type AddUserType = z.infer<typeof AddUserZodSchema>;
 interface Props {
