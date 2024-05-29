@@ -1,7 +1,11 @@
 import { User } from "@/types";
 
-export async function getAllUsers(): Promise<User[]> {
-  const response = await fetch("http://localhost:5000/users");
+export async function getAllUsers(query: string | null): Promise<User[]> {
+  console.log({ query });
+
+  const response = await fetch(
+    `http://localhost:5000/users?search=${encodeURIComponent(query!)}`
+  );
   if (!response.ok) {
     throw new Error("Network error!");
   }

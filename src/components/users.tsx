@@ -3,16 +3,20 @@ import { getAllUsers } from "../lib/actions";
 import { useQuery } from "@tanstack/react-query";
 import { PiSpinnerGapBold } from "react-icons/pi";
 import Header from "./header";
+import { useSearchParams } from "react-router-dom";
 
 export default function Users() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("search");
+
   const {
     data: users,
     isPending,
     isError,
+    refetch,
   } = useQuery({
-    queryKey: ["users"],
-    queryFn: getAllUsers,
-    staleTime: 10000,
+    queryKey: ["users", query],
+    queryFn: () => getAllUsers(query || null),
   });
 
   if (isPending) {
@@ -33,7 +37,7 @@ export default function Users() {
 
   return (
     <div>
-      <Header />
+      <Header refetch={refetch!} />
       <UserTable users={users!} />
     </div>
   );
