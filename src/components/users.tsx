@@ -2,12 +2,13 @@ import { UserTable } from "../components/user-table";
 import { getAllUsers } from "../lib/actions";
 import { useQuery } from "@tanstack/react-query";
 import { PiSpinnerGapBold } from "react-icons/pi";
-import Header from "./header";
+import Header from "./header/header";
 import { useSearchParams } from "react-router-dom";
 
 export default function Users() {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("search");
+  const name = searchParams.get("name");
+  const email = searchParams.get("email");
 
   const {
     data: users,
@@ -15,8 +16,8 @@ export default function Users() {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ["users", query],
-    queryFn: () => getAllUsers(query || null),
+    queryKey: ["users", name, email],
+    queryFn: () => getAllUsers({ name, email }),
   });
 
   if (isPending) {

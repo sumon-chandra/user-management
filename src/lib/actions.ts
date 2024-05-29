@@ -1,12 +1,18 @@
 import { User } from "@/types";
 
-export async function getAllUsers(query: string | null): Promise<User[]> {
+interface QueryProps {
+  name: string | null;
+  email: string | null;
+}
+
+export async function getAllUsers({ name, email }: QueryProps): Promise<User[]> {
   const response = await fetch(
-    `http://localhost:5000/users?search=${encodeURIComponent(query!)}`
+    `http://localhost:5000/users/?name=${encodeURIComponent(name!)}&email=${encodeURIComponent(email!)}`
   );
   if (!response.ok) {
     throw new Error("Network error!");
   }
+
   const data = await response.json();
   return data;
 }
