@@ -1,8 +1,6 @@
 import { User } from "@/types";
 
 export async function getAllUsers(query: string | null): Promise<User[]> {
-  console.log({ query });
-
   const response = await fetch(
     `http://localhost:5000/users?search=${encodeURIComponent(query!)}`
   );
